@@ -8,6 +8,26 @@ const db = {
       commentCount: 2,
     },
   ],
+  comments: [
+    {
+      body: 'Commenting',
+      createdAt: '2020-04-26T03:37:19.707Z',
+      screamId: 's8qekT9rxJV5j3H3CIGf',
+      userHandle: 'user',
+      userImage:
+        'https://firebasestorage.googleapis.com/v0/b/socialape-1012f.appspot.com/o/7506349669.JPG?alt=media',
+    },
+  ],
+  notifications: [
+    {
+      recipient: 'user',
+      sender: 'john',
+      read: 'true | false',
+      screamId: 's8qekT9rxJV5j3H3CIGf',
+      type: 'like | comment',
+      createdAt: '2020-04-26T03:37:19.707Z'
+    }
+  ]
 };
 
 const userDetails = {
@@ -26,11 +46,11 @@ const userDetails = {
   likes: [
     {
       userHandle: 'user',
-      screamId: '1VYOIj8qgd81krhD24lU'
+      screamId: '1VYOIj8qgd81krhD24lU',
     },
     {
       userHandle: 'user',
-      screamId: '3CrqD2yAvJLNvKaIsTxC'
-    }
-  ]
+      screamId: '3CrqD2yAvJLNvKaIsTxC',
+    },
+  ],
 };
