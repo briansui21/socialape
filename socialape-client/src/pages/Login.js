@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import AppIcon from '../images/icon.png';
-import axios from 'axios';
-
 // MUI Stuff
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -27,11 +25,9 @@ const Login = (props) => {
   });
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const UI = useSelector((state) => state.UI);
+  const { loading, errors } = useSelector((state) => state.UI);
 
   const { classes } = props;
-  const { loading, errors } = UI;
 
   const handleSubmit = (event) => {
     event.preventDefault();

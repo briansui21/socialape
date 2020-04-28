@@ -1,8 +1,5 @@
 import {
   SET_USER,
-  SET_ERRORS,
-  CLEAR_ERRORS,
-  LOADING_UI,
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
 } from '../types';
@@ -22,10 +19,7 @@ export default function (state = initialState, action) {
         authenticated: true,
       };
     case SET_UNAUTHENTICATED:
-      return {
-        ...state,
-        authenticated: false,
-      };
+      return initialState;
     case SET_USER:
       return {
         authenticated: true,
