@@ -1,14 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
+import MyButton from '../util/MyButton';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { editUserDetails } from '../redux/actions/userActions';
 
 // MUI
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -78,11 +77,13 @@ const EditDetails = (props) => {
 
   return (
     <Fragment>
-      <Tooltip title="Edit details" placement="top">
-        <IconButton onClick={handleOpen} className={classes.button}>
-          <EditIcon />
-        </IconButton>
-      </Tooltip>
+      <MyButton
+        tip="Edit details"
+        onClick={handleOpen}
+        btnClassName={classes.button}
+      >
+        <EditIcon color="primary" />
+      </MyButton>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>Edit your details</DialogTitle>
         <DialogContent>
