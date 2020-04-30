@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
+import EditDetails from './EditDetails';
 
 // MUI stuff
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import MuiLink from '@material-ui/core/Link';
 import { Typography } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 // Icons
 import LocationOn from '@material-ui/icons/LocationOn';
 import LinkIcon from '@material-ui/icons/Link';
 import CalendarToday from '@material-ui/icons/CalendarToday';
+import EditIcon from '@material-ui/icons/Edit';
+import KeyboardReturn from '@material-ui/icons/KeyboardReturn';
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser, uploadImage } from '../redux/actions/userActions';
 
 const styles = (theme) => ({
   paper: {
@@ -73,12 +79,44 @@ const Profile = (props) => {
     authenticated,
   } = useSelector((state) => state.user);
 
+  const dispatch = useDispatch();
+  const imageSelectWrapper = createRef();
+
+  const handleImageChange = (event) => {
+    const image = event.target.files[0];
+    // send to server
+    const formData = new FormData();
+    formData.append('image', image, image.name);
+    dispatch(uploadImage(formData));
+  };
+
+  const handleEditPicture = () => {
+    const fileInput = imageSelectWrapper.current;
+    fileInput.click();
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  }
+
   let profileMarkup = !loading ? (
     authenticated ? (
       <Paper className={classes.paper}>
         <div className={classes.profile}>
           <div className="image-wrapper">
             <img className="profile-image" src={imageUrl} alt="profile" />
+            <input
+              type="file"
+              ref={imageSelectWrapper}
+              id="imageInput"
+              onChange={handleImageChange}
+              hidden="hidden"
+            />
+            <Tooltip title="Edit profile picture" placement="top">
+              <IconButton onClick={handleEditPicture} className="button">
+                <EditIcon color="primary" />
+              </IconButton>
+            </Tooltip>
           </div>
           <hr />
           <div className="profile-details">
@@ -112,6 +150,12 @@ const Profile = (props) => {
             <CalendarToday color="primary" />
             <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
           </div>
+          <Tooltip title="Logout" placement="top">
+            <IconButton onClick={handleLogout}>
+              <KeyboardReturn color="primary"/>
+            </IconButton>
+          </Tooltip>
+          <EditDetails />
         </div>
       </Paper>
     ) : (
@@ -147,7 +191,7 @@ const Profile = (props) => {
 };
 
 Profile.propTypes = {
-  user: PropTypes.object.isRequired,
+  //user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
