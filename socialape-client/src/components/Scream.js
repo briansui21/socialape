@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import PropTypes from 'prop-types';
 import MyButton from '../util/MyButton';
+import DeleteScream from './DeleteScream';
 //MUI Components
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -20,6 +21,7 @@ import { likeScream, unlikeScream } from '../redux/actions/dataActions';
 
 const styles = {
   card: {
+    position: 'relative',
     display: 'flex',
     marginBottom: 20,
   },
@@ -36,14 +38,10 @@ const Scream = (props) => {
   dayjs.extend(relativeTime);
   const {
     classes,
-    scream: { body, createdAt, userImage, userHandle, screamId },
+    scream: { body, createdAt, userImage, userHandle, screamId, likeCount, commentCount },
   } = props;
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const thisScream = useSelector((state) =>
-    state.data.screams.find((scream) => (scream.screamId === screamId))
-  );
-  const { likeCount, commentCount } = thisScream;
 
   const likedScream = () => {
     if (user.likes && user.likes.find((like) => like.screamId === screamId))
@@ -52,11 +50,9 @@ const Scream = (props) => {
   };
 
   const handleLikeScream = () => {
-    console.log(screamId);
     dispatch(likeScream(screamId));
   };
   const handleUnlikeScream = () => {
-    console.log(screamId);
     dispatch(unlikeScream(screamId));
   };
 
@@ -76,6 +72,11 @@ const Scream = (props) => {
     </MyButton>
   );
 
+  const deleteButton =
+    user.authenticated && userHandle === user.credentials.handle ? (
+      <DeleteScream screamId={screamId} />
+    ) : null;
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -92,6 +93,7 @@ const Scream = (props) => {
         >
           {userHandle}
         </Typography>
+        {deleteButton}
         <Typography variant="body2" color="textSecondary">
           {dayjs(createdAt).fromNow()}
         </Typography>
@@ -101,6 +103,7 @@ const Scream = (props) => {
         <MyButton tip="comments">
           <ChatIcon color="primary" />
         </MyButton>
+
         <span>{commentCount} Comments</span>
       </CardContent>
     </Card>

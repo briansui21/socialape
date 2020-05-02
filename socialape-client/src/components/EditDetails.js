@@ -56,6 +56,7 @@ const EditDetails = (props) => {
 
   useEffect(() => {
     mapUserCredentialsToState();
+    // eslint-disable-next-line
   }, []);
 
   const handleChange = (event) => {
