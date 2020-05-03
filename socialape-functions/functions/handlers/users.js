@@ -207,6 +207,7 @@ exports.uploadImage = (req, res) => {
 
   let imageFileName;
   let imageToBeUploaded = {};
+  // String for image token
 
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
     if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
@@ -226,7 +227,7 @@ exports.uploadImage = (req, res) => {
   busboy.on('finish', () => {
     admin
       .storage()
-      .bucket()
+      .bucket('socialape-1012f.appspot.com')
       .upload(imageToBeUploaded.filepath, {
         resumable: false,
         metadata: {
